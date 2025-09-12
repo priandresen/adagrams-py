@@ -45,10 +45,31 @@ def draw_letters():
 
     return hand
 
-
-
 def uses_available_letters(word, letter_bank):
-    pass
+    
+    word_upper_case = word.upper()
+    word_list = list(word_upper_case)
+
+    word_dict = dict.fromkeys(word_list, 0)
+    letter_bank_dict = dict.fromkeys(letter_bank, 0)
+
+    for letter in word_list:
+        if letter in word_dict:
+                word_dict[letter] += 1
+            
+
+    for letter in letter_bank:
+        if letter in letter_bank_dict:
+            letter_bank_dict[letter] += 1
+
+    print(word_dict)
+    print(letter_bank_dict)
+
+    for letter in word_dict:
+        if word_dict.get(letter) > letter_bank_dict.get(letter, 0):
+            return False
+        
+    return True
 
 def score_word(word):
     pass
@@ -56,5 +77,3 @@ def score_word(word):
 def get_highest_word_score(word_list):
     pass
 
-
-draw_letters()
