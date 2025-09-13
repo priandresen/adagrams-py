@@ -2,7 +2,7 @@ from random import randint
 
 def draw_letters():
 
-    letter_available = {
+    letters_available = {
                     1:  {'A': 9},
                     2:  {'B': 2},
                     3:  {'C': 2},
@@ -32,17 +32,16 @@ def draw_letters():
     }
 
     hand = []
-    #letter_available_copy = letter_available.copy()
 
     while len(hand) < 10:
-        picked_letter = randint(1, len(letter_available))
-        print(picked_letter)
-        for num, inner_dict in letter_available.items():
+        picked_letter = randint(1, len(letters_available))
+
+        for num, inner_dict in letters_available.items():
             if num == picked_letter:
-                for letter, num_available, in inner_dict.items():
-                    if num_available != 0:
+                for letter, num_of_tiles_available, in inner_dict.items():
+                    if num_of_tiles_available != 0:
                         hand.append(letter)
-                        inner_dict[letter] = num_available - 1
+                        inner_dict[letter] = num_of_tiles_available - 1
 
     return hand
 
@@ -62,19 +61,15 @@ def uses_available_letters(word, letter_bank):
         if letter in letter_bank_dict:
             letter_bank_dict[letter] += 1
 
-    print(word_dict)
-    print(letter_bank_dict)
-
     for letter in word_dict:
         if word_dict.get(letter) > letter_bank_dict.get(letter, 0):
             return False
-        
+    
     return True
 
 def score_word(word):
     score = 0
     word_list = list(word.upper())
-
 
     letter_value_dict = {
                         "A": 1,
@@ -105,7 +100,6 @@ def score_word(word):
                         'Z': 10                         
     }
 
-
     if len(word) == 0:
         score = 0
     elif len(word) >= 7:
@@ -114,9 +108,6 @@ def score_word(word):
     for letter in word_list:
         if letter in letter_value_dict:
             score += letter_value_dict.get(letter)
-
-
-
 
     return score 
 
@@ -127,13 +118,11 @@ def get_highest_word_score(word_list):
     winner = (best_word, best_score)
 
     for word in word_list:
-
         temp_best_word = word
         temp_best_score = score_word(word)
         if temp_best_score > best_score:
             best_score = temp_best_score
             best_word = word
-        
         if temp_best_score == best_score:
             if len(temp_best_word) < len(best_word) and len(best_word) != 10:
                 best_word = temp_best_word
@@ -141,10 +130,6 @@ def get_highest_word_score(word_list):
             if len(temp_best_word) == 10:
                 winner = (temp_best_word, temp_best_score)
                 break
-
-        
         winner = (best_word, best_score)
-
-
     return winner
 
