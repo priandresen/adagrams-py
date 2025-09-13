@@ -12,6 +12,7 @@ def draw_letters():
                     7:  {'G': 3},
                     8:  {'H': 2},
                     9:  {'I': 9},
+                    10: {'J': 1},
                     11: {'K': 1},
                     12: {'L': 4},
                     13: {'M': 2},
@@ -47,8 +48,7 @@ def draw_letters():
 
 def uses_available_letters(word, letter_bank):
     
-    word_upper_case = word.upper()
-    word_list = list(word_upper_case)
+    word_list = list(word.upper())
 
     word_dict = dict.fromkeys(word_list, 0)
     letter_bank_dict = dict.fromkeys(letter_bank, 0)
@@ -72,8 +72,79 @@ def uses_available_letters(word, letter_bank):
     return True
 
 def score_word(word):
-    pass
+    score = 0
+    word_list = list(word.upper())
+
+
+    letter_value_dict = {
+                        "A": 1,
+                        'B': 3,
+                        'C': 3,
+                        'D': 2,
+                        'E': 1,
+                        'F': 4,
+                        'G': 2,
+                        'H': 4,
+                        'I': 1,
+                        'J': 8,
+                        'K': 5,
+                        'L': 1,
+                        'M': 3,
+                        'N': 1,
+                        'O': 1,
+                        'P': 3,
+                        'Q': 10,
+                        'R': 1,
+                        'S': 1,
+                        'T': 1,
+                        'U': 1,
+                        'V': 4,
+                        'W': 4,
+                        'X': 8,
+                        'Y': 4,
+                        'Z': 10                         
+    }
+
+
+    if len(word) == 0:
+        score = 0
+    elif len(word) >= 7:
+        score += 8
+
+    for letter in word_list:
+        if letter in letter_value_dict:
+            score += letter_value_dict.get(letter)
+
+
+
+
+    return score 
 
 def get_highest_word_score(word_list):
-    pass
+
+    best_word = word_list[0]
+    best_score = score_word(word_list[0])
+    winner = (best_word, best_score)
+
+    for word in word_list:
+
+        temp_best_word = word
+        temp_best_score = score_word(word)
+        if temp_best_score > best_score:
+            best_score = temp_best_score
+            best_word = word
+        
+        if temp_best_score == best_score:
+            if len(temp_best_word) < len(best_word) and len(best_word) != 10:
+                best_word = temp_best_word
+                temp_best_score = score_word(temp_best_word)
+            if len(temp_best_word) == 10:
+                winner = (temp_best_word, temp_best_score)
+                break
+
+        
+        winner = (best_word, best_score)
+
+
+    return winner
 
